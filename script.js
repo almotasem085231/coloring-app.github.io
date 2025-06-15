@@ -13,6 +13,8 @@ const eraserButton = document.getElementById('eraser');
 const undoButton = document.getElementById('undo');
 const redoButton = document.getElementById('redo');
 const saveButton = document.getElementById('save');
+const newToolButton = document.getElementById('newToolButton'); // Get the new button
+
 
 let painting = false;
 let currentTool = 'brush'; // 'brush' or 'eraser'
@@ -70,6 +72,14 @@ eraserButton.addEventListener('click', () => {
 undoButton.addEventListener('click', undo);
 redoButton.addEventListener('click', redo);
 saveButton.addEventListener('click', saveCanvasAsPNG);
+
+// NEW BUTTON EVENT LISTENER
+newToolButton.addEventListener('click', () => {
+    alert("You clicked the New Tool button! Implement its functionality here.");
+    // Example: Toggle a grid on/off
+    // You would add your specific logic here.
+});
+// ----------------------------
 
 
 // --- Drawing Functions ---
