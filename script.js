@@ -30,10 +30,18 @@ function initializeCanvas() {
 }
 
 // --- Event Listeners ---
+// Mouse Events
 canvas.addEventListener('mousedown', startPosition);
 canvas.addEventListener('mouseup', endPosition);
-canvas.addEventListener('mouseleave', endPosition); // Important for continuous strokes
+canvas.addEventListener('mouseleave', endPosition);
 canvas.addEventListener('mousemove', draw);
+
+// Touch Events
+canvas.addEventListener('touchstart', startPosition);
+canvas.addEventListener('touchend', endPosition);
+canvas.addEventListener('touchcancel', endPosition); // Handle interruptions
+canvas.addEventListener('touchmove', draw);
+
 
 colorPicker.addEventListener('input', (e) => {
   ctx.strokeStyle = e.target.value;
@@ -65,14 +73,32 @@ saveButton.addEventListener('click', saveCanvasAsPNG);
 
 
 // --- Drawing Functions ---
-function startPosition(e) {
-  painting = true;
-  // Always begin a new path on mousedown to prevent connected lines
-  ctx.beginPath();
-  ctx.moveTo(e.offsetX, e.offsetY);
+// Unified function to get coordinates from mouse or touch events
+function getCoordinates(e) {
+    let x, y;
+    if (e.touches && e.touches.length > 0) {
+        // For touch events, use the first touch point
+        const rect = canvas.getBoundingClientRect(); // Get canvas position
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
+        e.preventDefault(); // Prevent scrolling/zooming on touch move
+    } else {
+        // For mouse events
+        x = e.offsetX;
+        y = e.offsetY;
+    }
+    return { x, y };
 }
 
-function endPosition() {
+function startPosition(e) {
+  painting = true;
+  const { x, y } = getCoordinates(e);
+  // Always begin a new path on mousedown/touchstart to prevent connected lines
+  ctx.beginPath();
+  ctx.moveTo(x, y);
+}
+
+function endPosition(e) {
   if (!painting) return; // Only save state if a stroke was actually drawn
   painting = false;
   saveState(); // Save the state after each stroke
@@ -80,6 +106,8 @@ function endPosition() {
 
 function draw(e) {
   if (!painting) return;
+
+  const { x, y } = getCoordinates(e);
 
   // Set stroke style based on current tool
   if (currentTool === 'brush') {
@@ -90,7 +118,7 @@ function draw(e) {
 
   ctx.lineWidth = brushSizeInput.value;
 
-  ctx.lineTo(e.offsetX, e.offsetY);
+  ctx.lineTo(x, y);
   ctx.stroke();
   // No need for ctx.beginPath() and ctx.moveTo() here as it connects segments of the same stroke
 }
