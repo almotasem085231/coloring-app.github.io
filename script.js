@@ -1,3 +1,5 @@
+// script.js
+
 // Remove the alert, as it's not professional for a web app.
 // alert("مرحبًا بك في لعبة التلوين!");
 
@@ -149,3 +151,74 @@ function saveCanvasAsPNG() {
 
 // Initialize on load
 initializeCanvas();
+
+
+// --- Telegram Mini App Integration (Conceptual) ---
+// This section demonstrates how you would interact with the Telegram Web App SDK.
+// For full functionality, you would need to set up a Telegram Bot and integrate with its API.
+if (window.Telegram && window.Telegram.WebApp) {
+    Telegram.WebApp.ready();
+
+    // You can get user info:
+    // const user = Telegram.WebApp.initDataUnsafe.user;
+    // console.log("Telegram User:", user);
+
+    // Example: Add a button to share the drawing back to Telegram
+    // This is highly conceptual and depends on what your bot should do
+    const shareButton = document.createElement('button');
+    shareButton.textContent = 'Share to Telegram';
+    shareButton.className = 'tool-button';
+    shareButton.style.marginLeft = '15px'; // Add some spacing for the new button
+    // Append the share button to the toolbar.
+    // Ensure the toolbar is available in the DOM when this script runs.
+    const toolbar = document.querySelector('.toolbar');
+    if (toolbar) {
+        toolbar.appendChild(shareButton);
+    } else {
+        console.error("Toolbar element not found. Share to Telegram button not added.");
+    }
+
+    shareButton.addEventListener('click', () => {
+        if (Telegram.WebApp.isClosed) {
+            alert("Telegram Mini App is closed. Cannot send data.");
+            return;
+        }
+
+        const imageData = canvas.toDataURL('image/png'); // Get image data
+
+        // Option 1: Send as a base64 string directly to the bot (might be too large for text messages)
+        // Telegram.WebApp.sendData(imageData);
+
+        // Option 2: Inform the bot and let the bot request the image (more robust)
+        // If you have a backend, you could upload the image there and send a URL to the bot.
+        // For a simple demo, you could send a command and then the bot could
+        // prompt the user to save the image manually from the web app before closing.
+        // A more advanced approach involves the bot API to send photos.
+
+        // Example of sending simple data to the bot
+        // Be aware of data size limits for sendData. Large images as Data URLs can exceed limits.
+        Telegram.WebApp.sendData(JSON.stringify({
+            action: 'drawing_shared',
+            image_data_url: imageData
+        }));
+
+        // Close the web app after sending (optional)
+        // Telegram.WebApp.close();
+        alert("Drawing data sent to Telegram (conceptually).");
+    });
+
+    // Set the background color of the Telegram Mini App to match your app
+    // Ensure that --background-color and --primary-color are defined in your CSS :root
+    try {
+        const bodyBgColor = getComputedStyle(document.body).getPropertyValue('--background-color');
+        if (bodyBgColor) Telegram.WebApp.setBackgroundColor(bodyBgColor);
+
+        const headerColor = getComputedStyle(document.querySelector('header')).getPropertyValue('--primary-color');
+        if (headerColor) Telegram.WebApp.setHeaderColor(headerColor);
+    } catch (e) {
+        console.warn("Could not set Telegram Web App colors. Ensure CSS variables are defined and elements exist.", e);
+    }
+
+} else {
+    console.log("Not running in Telegram Web App environment.");
+}
