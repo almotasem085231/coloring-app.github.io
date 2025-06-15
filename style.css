@@ -1,87 +1,89 @@
 :root {
-  --primary-color: #4CAF50; /* Green */
-  --secondary-color: #2196F3; /* Blue */
-  --background-color: #eef2f7;
+  --primary-color: #6a0dad; /* Deep Purple */
+  --secondary-color: #8a2be2; /* Blue Violet */
+  --accent-color: #00bcd4; /* Cyan */
+  --background-light: #f8f9fa;
+  --background-dark: #e0e0e0;
   --surface-color: #ffffff;
-  --text-color: #333;
-  --border-color: #ddd;
-  --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+  --text-dark: #343a40;
+  --text-light: #f8f9fa;
+  --border-color: #dee2e6;
+  --shadow-light: 0 2px 5px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.12);
+  --border-radius-base: 8px;
+  --spacing-unit: 10px;
 }
 
 body {
-  font-family: 'Roboto', sans-serif;
-  background: var(--background-color);
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(135deg, var(--background-light), var(--background-dark));
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  color: var(--text-color);
+  color: var(--text-dark);
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
 header {
   background: var(--primary-color);
-  color: white;
-  padding: 20px 0;
+  color: var(--text-light);
+  padding: var(--spacing-unit) * 2 0;
   width: 100%;
   text-align: center;
   box-shadow: var(--shadow-medium);
+  z-index: 10; /* Ensure header is on top */
 }
 
 header h1 {
   margin: 0;
-  font-size: 2.5em;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 2.8em;
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 700;
 }
 
 header h1 i {
-  margin-right: 10px;
+  margin-right: var(--spacing-unit);
+  color: var(--accent-color);
 }
 
 .tagline {
   font-size: 1.1em;
   margin-top: 5px;
   opacity: 0.9;
+  font-weight: 400;
 }
 
 main {
   flex-grow: 1;
   width: 100%;
-  max-width: 1200px; /* Constrain max width for large screens */
+  max-width: 1400px; /* Max width for content */
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
-}
-
-canvas {
-  background: var(--surface-color);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-medium);
-  margin-top: 20px;
-  cursor: crosshair;
-  border-radius: 8px; /* Slightly rounded corners */
-  max-width: 100%; /* Ensure responsiveness */
-  height: auto; /* Maintain aspect ratio */
+  padding: var(--spacing-unit) * 2;
+  box-sizing: border-box; /* Include padding in width */
 }
 
 .toolbar-container {
   width: 100%;
   background: var(--surface-color);
-  padding: 15px 20px;
-  border-radius: 8px;
+  padding: var(--spacing-unit) * 1.5 var(--spacing-unit) * 2;
+  border-radius: var(--border-radius-base);
   box-shadow: var(--shadow-light);
-  margin-top: 20px;
+  margin-bottom: var(--spacing-unit) * 2;
+  box-sizing: border-box;
 }
 
 .toolbar {
   display: flex;
-  flex-wrap: wrap; /* Allow tools to wrap on smaller screens */
-  gap: 15px;
+  flex-wrap: wrap; /* Allow tools to wrap */
+  gap: var(--spacing-unit) * 1.5; /* Spacing between tool groups */
   justify-content: center;
   align-items: center;
 }
@@ -89,143 +91,270 @@ canvas {
 .tool-group {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #f9f9f9;
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: 1px solid #eee;
+  gap: var(--spacing-unit); /* Spacing between tools in a group */
+  background: var(--background-light);
+  padding: var(--spacing-unit) * 0.8 var(--spacing-unit) * 1.2;
+  border-radius: var(--border-radius-base) * 0.6;
+  border: 1px solid var(--border-color);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .tool-group label {
   display: flex;
   align-items: center;
   cursor: pointer;
+  font-size: 0.95em;
+  color: var(--text-dark);
 }
 
-.toolbar input[type="color"] {
+.tool-group label i {
+  margin-right: 5px;
+  color: var(--primary-color);
+}
+
+/* Custom styling for color input */
+input[type="color"] {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 30px;
-  height: 30px;
+  width: 35px;
+  height: 35px;
   background-color: transparent;
   border: none;
   cursor: pointer;
   padding: 0;
   border-radius: 50%;
   overflow: hidden;
+  box-shadow: 0 0 0 2px var(--border-color);
+  transition: box-shadow 0.2s ease;
 }
 
-.toolbar input[type="color"]::-webkit-color-swatch {
+input[type="color"]:hover {
+  box-shadow: 0 0 0 3px var(--secondary-color);
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+}
+input[type="color"]::-moz-color-swatch {
   border: none;
   border-radius: 50%;
 }
 
-.toolbar input[type="color"]::-moz-color-swatch {
-  border: none;
-  border-radius: 50%;
-}
-
-
-.toolbar input[type="range"] {
-  width: 100px;
+/* Custom styling for range input */
+input[type="range"] {
+  width: 120px;
   height: 8px;
   -webkit-appearance: none;
-  background: var(--secondary-color);
+  background: var(--primary-color);
   border-radius: 5px;
   outline: none;
   opacity: 0.9;
-  transition: opacity .2s;
+  transition: opacity .2s, background-color .2s;
+  cursor: grab;
 }
 
-.toolbar input[type="range"]:hover {
+input[type="range"]:hover {
   opacity: 1;
 }
 
-.toolbar input[type="range"]::-webkit-slider-thumb {
+input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--accent-color);
   cursor: pointer;
+  box-shadow: 0 0 0 3px var(--text-light);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="range"]::-webkit-slider-thumb:active {
+  background: var(--secondary-color);
+  cursor: grabbing;
 }
 
-.toolbar input[type="range"]::-moz-range-thumb {
+input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: var(--primary-color);
+  background: var(--accent-color);
   cursor: pointer;
+  box-shadow: 0 0 0 3px var(--text-light);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+input[type="range"]::-moz-range-thumb:active {
+  background: var(--secondary-color);
+  cursor: grabbing;
+}
+
+.brushSizeValue {
+  min-width: 25px; /* Ensure space for 2 digits */
+  text-align: right;
+  font-weight: 600;
+  margin-left: 5px;
 }
 
 .tool-button {
   background: var(--secondary-color);
-  color: white;
+  color: var(--text-light);
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
+  padding: var(--spacing-unit) var(--spacing-unit) * 1.5;
+  border-radius: var(--border-radius-base) * 0.6;
   cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease, transform 0.1s ease;
+  font-size: 1.1em;
+  transition: background-color 0.3s ease, transform 0.1s ease, box-shadow 0.2s ease;
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: var(--spacing-unit) * 0.5;
+  outline: none;
 }
 
 .tool-button:hover {
-  background-color: #1976D2; /* Darker blue on hover */
-  transform: translateY(-1px);
+  background-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-light);
 }
 
 .tool-button:active {
   transform: translateY(0);
+  background-color: var(--primary-color);
+  box-shadow: none;
+}
+
+.tool-button.active {
+  background-color: var(--primary-color);
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2);
+  transform: translateY(0);
+  border: 1px solid var(--accent-color);
 }
 
 .tool-button:disabled {
   background-color: #cccccc;
   cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+  box-shadow: none;
+  border: none;
+}
+
+canvas {
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-medium);
+  margin-top: 0; /* Adjusted, as toolbar has margin-bottom */
+  cursor: crosshair;
+  border-radius: var(--border-radius-base);
+  max-width: 100%; /* Ensure responsiveness */
+  height: auto; /* Maintain aspect ratio */
+  touch-action: none; /* Prevent browser default actions like scrolling/zooming on canvas */
 }
 
 footer {
-  margin-top: 30px;
-  padding: 15px 0;
+  margin-top: var(--spacing-unit) * 3;
+  padding: var(--spacing-unit) * 1.5 0;
   width: 100%;
   text-align: center;
-  background: var(--text-color);
-  color: white;
+  background: var(--text-dark);
+  color: var(--text-light);
   font-size: 0.9em;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.05);
 }
 
+#telegramMiniAppControls {
+    background: #e0f2f7; /* Light blue background for TG specific section */
+    color: #006064; /* Dark cyan text */
+    padding: var(--spacing-unit);
+    margin-top: var(--spacing-unit) * 2;
+    border-radius: var(--border-radius-base);
+    border: 1px dashed #80deea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-unit);
+}
+
+.telegram-hint {
+    font-style: italic;
+    font-size: 0.85em;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.telegram-hint i {
+    color: #0088cc; /* Telegram blue */
+}
+
+
 /* Responsive Adjustments */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   header h1 {
-    font-size: 2em;
+    font-size: 2.2em;
   }
   .toolbar {
-    flex-direction: column; /* Stack tools vertically on smaller screens */
+    gap: var(--spacing-unit);
+  }
+  .tool-group {
+    padding: var(--spacing-unit) * 0.6 var(--spacing-unit);
+    gap: var(--spacing-unit) * 0.6;
+  }
+  .tool-button {
+    padding: var(--spacing-unit) * 0.8 var(--spacing-unit);
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.8em;
+  }
+  .tagline {
+    font-size: 1em;
+  }
+  main {
+    padding: var(--spacing-unit);
+  }
+  .toolbar-container {
+    padding: var(--spacing-unit);
+  }
+  .toolbar {
+    flex-direction: column; /* Stack tool groups vertically */
     align-items: stretch;
+    gap: var(--spacing-unit) * 1.5;
   }
   .tool-group {
     width: 100%; /* Full width for tool groups */
     justify-content: space-between;
   }
-  .toolbar input[type="range"] {
-    width: auto; /* Let range take available width */
+  .tool-group.tool-selection {
+    flex-wrap: wrap; /* Allow tool buttons to wrap within their group */
+    justify-content: center;
+    gap: var(--spacing-unit) * 0.8;
+  }
+  input[type="range"] {
+    width: auto;
     flex-grow: 1;
   }
 }
 
 @media (max-width: 480px) {
   header h1 {
-    font-size: 1.8em;
-  }
-  .toolbar {
-    padding: 10px;
+    font-size: 1.5em;
   }
   .tool-button {
-    padding: 8px 12px;
+    padding: var(--spacing-unit) * 0.6 var(--spacing-unit) * 0.8;
     font-size: 0.9em;
+  }
+  .tool-group {
+    padding: var(--spacing-unit) * 0.5 var(--spacing-unit) * 0.8;
+  }
+  .tool-group label {
+    font-size: 0.85em;
   }
 }
