@@ -3,64 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Canvas Draw - Professional Digital Sketchpad</title>
+  <title>ProDraw - Digital Sketchpad</title>
   <link rel="stylesheet" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <header>
-    <h1><i class="fas fa-paint-brush"></i> SUKUNA Draw</h1>
-    <p class="tagline">Unleash your creativity on a digital canvas.</p>
+    <h1><i class="fas fa-paint-roller"></i> ProDraw</h1>
+    <p class="tagline">Your Canvas, Your Creativity</p>
   </header>
 
   <main>
     <div class="toolbar-container">
       <div class="toolbar">
-        <div class="tool-group">
+        <div class="tool-group tool-selection">
+          <button id="brushTool" class="tool-button active" title="Brush"><i class="fas fa-paint-brush"></i></button>
+          <button id="eraserTool" class="tool-button" title="Eraser"><i class="fas fa-eraser"></i></button>
+          <button id="lineTool" class="tool-button" title="Line Tool"><i class="fas fa-minus"></i></button>
+          <button id="rectTool" class="tool-button" title="Rectangle Tool"><i class="fas fa-square-full"></i></button>
+          <button id="circleTool" class="tool-button" title="Circle Tool"><i class="fas fa-circle"></i></button>
+          <button id="fillTool" class="tool-button" title="Fill Tool"><i class="fas fa-fill-drip"></i></button>
+        </div>
+
+        <div class="tool-group properties">
           <label for="colorPicker" title="Brush Color">
             <i class="fas fa-palette"></i>
             <input type="color" id="colorPicker" value="#000000">
           </label>
-        </div>
-
-        <div class="tool-group">
-          <label for="brushSize" title="Brush Size">
-            <i class="fas fa-brush"></i>
+          <label for="brushSize" title="Tool Size">
+            <i class="fas fa-grip-lines"></i>
             <input type="range" id="brushSize" min="1" max="50" value="5">
             <span id="brushSizeValue">5</span>px
           </label>
         </div>
 
-        <div class="tool-group">
-          <button id="eraser" class="tool-button" title="Eraser"><i class="fas fa-eraser"></i></button>
-        </div>
-
-        <div class="tool-group">
-          <button id="clear" class="tool-button" title="Clear Canvas"><i class="fas fa-trash-alt"></i></button>
-        </div>
-
-        <div class="tool-group">
-          <button id="undo" class="tool-button" title="Undo"><i class="fas fa-undo"></i></button>
-          <button id="redo" class="tool-button" title="Redo" disabled><i class="fas fa-redo"></i></button>
-        </div>
-
-        <div class="tool-group">
-          <button id="newToolButton" class="tool-button" title="New Functionality"><i class="fas fa-magic"></i> New Tool</button>
-        </div>
-        <div class="tool-group">
-          <button id="save" class="tool-button" title="Save as PNG"><i class="fas fa-download"></i></button>
+        <div class="tool-group actions">
+          <button id="undoButton" class="tool-button" title="Undo"><i class="fas fa-undo"></i></button>
+          <button id="redoButton" class="tool-button" title="Redo" disabled><i class="fas fa-redo"></i></button>
+          <button id="clearButton" class="tool-button" title="Clear Canvas"><i class="fas fa-trash-alt"></i></button>
+          <button id="saveButton" class="tool-button" title="Save as PNG"><i class="fas fa-download"></i></button>
         </div>
       </div>
     </div>
 
-    <canvas id="draw" width="1024" height="768"></canvas>
+    <canvas id="drawCanvas" width="1280" height="720"></canvas>
   </main>
 
   <footer>
-    <p>&copy; 2025 SUKUNA Draw. All rights reserved.</p>
+    <p>&copy; 2025 ProDraw. All rights reserved.</p>
+    <div id="telegramMiniAppControls" style="display: none;">
+      <button id="telegramShareButton" class="tool-button">Share to Telegram</button>
+      <p class="telegram-hint">
+        <i class="fab fa-telegram-plane"></i> This app can be integrated as a Telegram Mini App.
+      </p>
+    </div>
   </footer>
 
   <script src="script.js"></script>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </body>
 </html>
